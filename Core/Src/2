@@ -1,0 +1,22 @@
+#ifndef __SERVER_H__
+#define __SERVER_H__
+#include "stm32f1xx_hal.h"
+#include "tim.h"
+#include "stm32f1xx_hal_tim.h"
+
+void start_state(void);
+void Red_catch(void);
+void Blue_catch(void);
+
+
+
+
+
+
+
+
+
+
+
+
+#endif // __SERVER_H__
