@@ -65,40 +65,48 @@ void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  // 初始化PA5输出模式
+  HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);
+  GPIO_InitStruct.Pin = GPIO_PIN_5;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 }
 
 /* USER CODE BEGIN 2 */
+// 初始化PA5
+
 /*************************************** 小车部分的代码 *********************************************************************************************************/
 
 void Go_forward(void)
 {
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 1500);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 500);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 500);
 }
 void turn_left_little(void)
 {
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 1300);
- 
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 500);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 300);
 }
 void turn_right_little(void)
 {
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 1700);
+__HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 300);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 500);
 }
 void turn_left_big(void)
 {
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 1000);
+ __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 500);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0);
 }
 void turn_right_big(void)
 {
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 2000);
+ __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2,500);
 }
 void stop(void)
 {
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET);
-  __HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 1500);
+ __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_1, 0);
+  __HAL_TIM_SET_COMPARE(&htim3, TIM_CHANNEL_2, 0);
 }
 /* USER CODE END 2 */

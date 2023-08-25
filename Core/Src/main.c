@@ -29,20 +29,17 @@
 /* USER CODE BEGIN Includes */
 
 #include "servo.h"
-#define Read_hw_xunji_1 HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_12)
-#define Read_hw_xunji_2 HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_13)
-#define Read_hw_xunji_3 HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_14)
-#define Read_hw_xunji_4 HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_15)
 
 uint8_t buffer;
 extern uint8_t count;
-uint8_t buf[6];
+extern uint8_t buf[6];
 uint8_t rx_flag = 0;
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-
+uint8_t flag = 0;
+uint8_t Last_Flag = 0;
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -114,87 +111,33 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-  printf("test demo\n");
-//  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
-//  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
-//  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
-//  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
 
-  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // 小车转向
-//  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
+  printf("xunjixiaoche ceshi cehengxu \n");
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_4);
+
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // 小车转向pa6
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2); // 小车转向pa7
+                                            //  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2);
 
   HAL_UART_Receive_IT(&huart1, (uint8_t *)&buffer, 1);
-__HAL_TIM_SetCompare(&htim3, TIM_CHANNEL_1, 1700);
- 
- //start_state(); // 舵机初始位置
+
+  start_state(); // 舵机初始位置
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  
-    if (Read_hw_xunji_1 == 1 && Read_hw_xunji_2 == 0 && Read_hw_xunji_3 == 1 && Read_hw_xunji_4 == 0)
-    {
-      Go_forward();
-      printf("Go_forward\n");
-    }
-    else if (Read_hw_xunji_1 == 1 && Read_hw_xunji_2 == 1 && Read_hw_xunji_3 == 1 && Read_hw_xunji_4 == 0)
-    {
-      turn_left_little();
-      printf("turn_left_little\n");
-    }
-    else if (Read_hw_xunji_1 == 1 && Read_hw_xunji_2 == 0 && Read_hw_xunji_3 == 1 && Read_hw_xunji_4 == 1)
-    {
-      turn_right_little();
-      printf("turn_right_little\n");
-    }
-    else if (Read_hw_xunji_1 == 1 && Read_hw_xunji_2 == 1 && Read_hw_xunji_3 == 0 && Read_hw_xunji_4 == 1)
-    {
-      turn_left_big();
-      printf("turn_left_big\n");
-    }
-    else if (Read_hw_xunji_1 == 0 && Read_hw_xunji_2 == 1 && Read_hw_xunji_3 == 1&& Read_hw_xunji_4 == 1)
-    {
-      turn_right_big();
-      printf("turn_right_big\n");
-    }
 
-    if (buf[2] == 'B')
-    {
-      HAL_Delay(200);
-      if (buf[2] == 'B')
-      {
-        stop();
-        HAL_Delay(200);
-        Blue_catch();
-      }
-    }
-    if (buf[2] == 'Y')
-    {
-      HAL_Delay(200);
-      if (buf[2] == 'Y')
-      {
-        stop();
-        HAL_Delay(200);
-        Red_catch();
-      }
-    }
-if (buf[2] == 'R')
-    {
-      HAL_Delay(200);
-      if (buf[2] == 'R')
-      {
-        stop();
-        HAL_Delay(200);
-        Red_catch();
-        while (1)
-        {
-          
-        }
-        
-      }
-  }
+    // Line_Tracing(); // 循迹
+   Blue_catch();
+	  Red_catch();
+    //AutoCatch(); // 自动抓取
+    
+
     // printf("test demo\n");
 
     /* USER CODE END WHILE */
